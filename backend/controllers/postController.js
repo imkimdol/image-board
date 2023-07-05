@@ -5,6 +5,7 @@ const { putImage, deleteImage } = require('./imageController');
 const { checkAuthorized } = require('../helpers/miscHelpers');
 
 
+
 const getPosts = async (req, res) => {
     const query = req.query;
 
@@ -87,6 +88,7 @@ const deletePost = async (req, res) => {
 };
 
 
+
 const getTags = async (req, res) => {
     const { id } = req.params;
   
@@ -110,6 +112,13 @@ const addTag = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({error: 'Invalid Post ID'});
     }
+    
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, post.author)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
 
     try {
         await Post.findOneAndUpdate(
@@ -131,6 +140,13 @@ const deleteTag = async (req, res) => {
         return res.status(404).json({error: 'Invalid Post ID'});
     }
 
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, post.author)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
+
     try {
         await Post.findOneAndUpdate(
             { _id: id }, 
@@ -143,6 +159,7 @@ const deleteTag = async (req, res) => {
         res.status(400).json({ err: error.message });
     }
 };
+
 
 
 const getLikes = async (req, res) => {
@@ -169,6 +186,13 @@ const addLike = async (req, res) => {
         return res.status(404).json({error: 'Invalid Post ID'});
     }
 
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, username)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
+
     try {username
         await Post.findOneAndUpdate(
             { _id: id }, 
@@ -189,6 +213,13 @@ const deleteLike = async (req, res) => {
         return res.status(404).json({error: 'Invalid Post ID'});
     }
 
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, username)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
+
     try {
         await Post.findOneAndUpdate(
             { _id: id }, 
@@ -201,6 +232,7 @@ const deleteLike = async (req, res) => {
         res.status(400).json({ err: error.message });
     }
 };
+
 
 
 module.exports = {

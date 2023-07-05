@@ -1,5 +1,6 @@
 const Tag = require('../models/tagModel');
-const mongoose = require('mongoose');
+
+const { checkAuthorized } = require('../helpers/miscHelpers');
 
 
 const getTags = async (req, res) => {
@@ -37,6 +38,10 @@ const postTag = async (req, res) => {
 const deleteTag = async (req, res) => {
     const { name } = req.params;
     const tag = await Tag.findByIdAndDelete(name);
+
+    if (!checkAuthorized(req, 'admin')) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
   
     if (!tag) {
         return res.status(404).json({error: 'Account not found'});
