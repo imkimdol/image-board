@@ -10,6 +10,7 @@ import Add from "./pages/Add";
 import Account from "./pages/Account";
 import Settings from "./pages/Settings";
 import PostDetailed from "./pages/PostDetailed";
+import EditPost from "./pages/EditPost";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -19,11 +20,12 @@ function App() {
 
   const router = createBrowserRouter([
     {path: "/", element: <Home />},
-    {path: "/users", element: <Users />},
+    {path: "users", element: <Users />},
     {path: "add", element: <Add />},
     {path: "account", element: <Account />},
     {path: "settings", element: <Settings />},
-    {path: "posts/:id", element: <PostDetailed />}
+    {path: "posts/:id", element: <PostDetailed />},
+    {path: "posts/:id/edit", element: <EditPost />}
   ]);
 
   if (!serverLoc) { 
