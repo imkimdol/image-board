@@ -1,4 +1,4 @@
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
@@ -17,14 +17,13 @@ function App() {
   const username = localStorage.getItem("username");
   const serverLoc = localStorage.getItem("serverLoc");
 
-  const router = createHashRouter([
-    {path: "/", element: <Home />, children: [
-      {path: "/users", element: <Users />},
-      {path: "add", element: <Add />},
-      {path: "account", element: <Account />},
-      {path: "settings", element: <Settings />},
-      {path: "posts/:id", element: <PostDetailed />}
-    ]},
+  const router = createBrowserRouter([
+    {path: "/", element: <Home />},
+    {path: "/users", element: <Users />},
+    {path: "add", element: <Add />},
+    {path: "account", element: <Account />},
+    {path: "settings", element: <Settings />},
+    {path: "posts/:id", element: <PostDetailed />}
   ]);
 
   if (!serverLoc) { 
