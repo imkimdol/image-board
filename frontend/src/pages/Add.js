@@ -3,11 +3,10 @@ import AddTag from "./../components/AddTag";
 
 const Add = () => {
   const username = localStorage.getItem("username");
-  if (!username) {return};
 
   return (
     <div>
-      <AddPost />
+      {username && <AddPost />}
       <AddTag />
     </div>
   );
