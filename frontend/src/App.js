@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Add from "./pages/Add";
 import Account from "./pages/Account";
+import Admin from "./pages/Admin";
 import Settings from "./pages/Settings";
 import PostDetailed from "./pages/PostDetailed";
 import EditPost from "./pages/EditPost";
@@ -23,6 +24,7 @@ function App() {
     {path: "search", element: <Search />},
     {path: "add", element: <Add />},
     {path: "account", element: <Account />},
+    {path: "admin", element: <Admin />},
     {path: "settings", element: <Settings />},
     {path: "posts/:id", element: <PostDetailed />},
     {path: "posts/:id/edit", element: <EditPost />}
