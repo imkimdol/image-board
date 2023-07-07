@@ -89,6 +89,37 @@ const deletePost = async (req, res) => {
 
 
 
+const updateDescription = async (req, res) => {
+    const { id } = req.params;
+    const { description } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'Invalid Post ID'});
+    }
+    
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, post.author)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
+
+    try {
+        await Post.findOneAndUpdate(
+            { _id: id },
+            { description: description }
+        );
+        res.status(200).send();
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ err: error.message });
+    }
+};
+
+
+
+
 const getTags = async (req, res) => {
     const { id } = req.params;
   
@@ -103,6 +134,35 @@ const getTags = async (req, res) => {
     }
   
     res.status(200).json(post.tags);
+};
+
+const updateTags = async (req, res) => {
+    const { id } = req.params;
+    const { tags } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: 'Invalid Post ID'});
+    }
+    
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(400).json({error: 'Post not found'});
+    } else if (!checkAuthorized(req, post.author)) {
+        return res.status(400).json({error: 'Not authorized!'});
+    }
+
+    try {
+        console.log(tags);
+        await Post.findOneAndUpdate(
+            { _id: id },
+            { $set: { tags } }
+        );
+        res.status(200).send();
+
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ err: error.message });
+    }
 };
 
 const addTag = async (req, res) => {
@@ -240,9 +300,14 @@ module.exports = {
     getPost,
     postPost,
     deletePost,
+
+    updateDescription,
+
     getTags,
+    updateTags,
     addTag,
     deleteTag,
+
     getLikes,
     addLike,
     deleteLike

@@ -3,7 +3,7 @@ import axios from "axios";
 
 import {getServerLoc} from "../helpers/miscHelpers";
 
-const AddPost = () => {
+const CreatePost = () => {
     const [imageURL, setImageURL] = useState("");
     const [description, setDescription] = useState("");
     const [success, setSuccess] = useState(null);
@@ -56,4 +56,4 @@ const AddPost = () => {
       )    
 };
 
-export default AddPost;
+export default CreatePost;

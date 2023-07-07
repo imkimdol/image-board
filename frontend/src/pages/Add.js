@@ -1,13 +1,13 @@
-import AddPost from "./../components/AddPost";
-import AddTag from "./../components/AddTag";
+import CreatePost from "../components/CreatePost";
+import CreateTag from "../components/CreateTag";
 
 const Add = () => {
   const username = localStorage.getItem("username");
 
   return (
     <div>
-      {username && <AddPost />}
-      <AddTag />
+      {username && <CreatePost />}
+      <CreateTag />
     </div>
   );
 };

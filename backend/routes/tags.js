@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', getTags);
 router.post('/', postTag);
 
-router.get('/name/:name', getTag);
-router.delete('/name/:name', deleteTag);
+router.get('/:name', getTag);
+router.delete('/:name', deleteTag);
 
 module.exports = router;

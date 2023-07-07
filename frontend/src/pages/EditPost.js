@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import AsyncSelect from 'react-select/async'
 
 import { getServerLoc } from "../helpers/miscHelpers";
 
@@ -10,13 +11,17 @@ const EditPost = () => {
 
   const [ post, setPost ] = useState(null);
   const [ description, setDescription ] = useState(null);
+  const [ selectedTags, setSelectedTags ] = useState([]);
 
   const [ deleting, setDeleting ] = useState(false);
   const [ isAuthor, setIsAuthor ] = useState(false);
   const [ error, setError ] = useState(null);
 
 
-  
+  const mapToOptionsType = (elem) => {
+    return {"value": elem, "label": elem}
+  }
+
 
   const getPost = async () => {
     const link = getServerLoc() + "/posts/" + postId;
@@ -29,21 +34,46 @@ const EditPost = () => {
       if (username === res.data.author || username === "admin") {
         setIsAuthor(true);
       }
+      console.log(res.data.tags);
+      setSelectedTags(res.data.tags.map(t => mapToOptionsType(t)));
     } catch (e) {
       setError(e);
       console.error(e);
     }
   }
   
+  const getAvailableTags = () => {
+    return new Promise((resolve) => {
+      const link = getServerLoc() + "/tags";
+
+      axios.get(link).then((response) => {
+        resolve(response.data.map(t => mapToOptionsType(t._id)));
+      });
+    })
+  }
+
   useEffect(() => {
     getPost();
   }, []);
 
 
+  const handleChange = (value) => {
+    console.log(value)
+    setSelectedTags(value);
+  }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async () => {
+    try {
+      const baseLink = getServerLoc() + "/posts/" + postId;
 
+      axios.put(baseLink+"/description/", {description});
+      axios.put(baseLink+"/tags/", {tags: selectedTags.map(e => e.value)});
+    } catch (e) {
+      setError(e);
+      console.error(e);
+    }
   };
   
   const handleDelete = async () => {
@@ -56,9 +86,6 @@ const EditPost = () => {
     }
   };
 
-
-
-
   if (!isAuthor) {
     <p>Unauthorized!</p>
   }
@@ -67,8 +94,8 @@ const EditPost = () => {
     return (<div>{post &&<div>
 
       <form onSubmit={handleSubmit}>
-        <label>ID: {post._id}</label>
-        <label>Posted by: {post.author}</label>
+        <p>ID: {post._id}</p>
+        <p>Posted by: {post.author}</p>
 
         <label>Description</label>
         <input 
@@ -77,8 +104,16 @@ const EditPost = () => {
           value={description}
         />
 
-        <label>Tags: {post.tags}</label>
-        <label>Likes: {post.likes}</label>
+        <p>Tags: </p>
+        <AsyncSelect 
+          isMulti
+          defaultOptions
+          onChange={handleChange}
+          defaultValue={selectedTags}
+          loadOptions={getAvailableTags}
+        />
+        
+        <p>Likes: {post.likes}</p>
         <button>Done</button>
       </form>
       

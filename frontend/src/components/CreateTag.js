@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { getServerLoc } from "../helpers/miscHelpers";
 
-const AddTag = () => {
+const CreateTag = () => {
     const [name, setName] = useState("");
     const [success, setSuccess] = useState(null);
     const [error, setError] = useState(null);
@@ -45,4 +45,4 @@ const AddTag = () => {
     )    
 };
 
-export default AddTag;
+export default CreateTag;

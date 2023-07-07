@@ -8,8 +8,11 @@ router.post('/', controller.postPost);
 router.get('/:id', controller.getPost);
 router.delete('/:id', controller.deletePost);
 
-router.get('/:id/tags', controller.getTags);
+router.put("/:id/description", controller.updateDescription)
+
+router.get('/:id/tags/', controller.getTags);
 router.post('/:id/tags/', controller.addTag);
+router.put('/:id/tags/', controller.updateTags);
 router.delete('/:id/tags/:name', controller.deleteTag);
 
 router.get('/:id/likes', controller.getLikes);
