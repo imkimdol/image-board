@@ -3,7 +3,7 @@ import PostsColumn from "./../components/PostsColumn";
 const Home = () => {
   return (
     <div className="Home">
-      <PostsColumn query={{}} />
+      <PostsColumn query={{query: {}}} />
     </div>
   );
 };

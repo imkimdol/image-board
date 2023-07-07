@@ -8,9 +8,11 @@ const { checkAuthorized } = require('../helpers/miscHelpers');
 
 const getPosts = async (req, res) => {
     const query = req.query;
+    
+    if (!query) {return res.status(200).json([])};
 
     try {
-        const posts = await Post.find(query).sort({createdAt: -1});
+        const posts = await Post.find(query.query, query.projections, query.options).sort({createdAt: -1});
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);

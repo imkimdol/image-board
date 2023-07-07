@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 
 import InitApp from "./pages/InitApp";
 import Home from "./pages/Home";
-import Users from "./pages/Users";
+import Search from "./pages/Search";
 import Add from "./pages/Add";
 import Account from "./pages/Account";
 import Settings from "./pages/Settings";
@@ -20,7 +20,7 @@ function App() {
 
   const router = createBrowserRouter([
     {path: "/", element: <Home />},
-    {path: "users", element: <Users />},
+    {path: "search", element: <Search />},
     {path: "add", element: <Add />},
     {path: "account", element: <Account />},
     {path: "settings", element: <Settings />},

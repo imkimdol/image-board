@@ -1,8 +1,9 @@
 const express = require('express');
-const { getAccount, postAccount, deleteAccount } = require('../controllers/accountController');
+const { getAccounts, getAccount, postAccount, deleteAccount } = require('../controllers/accountController');
 
 const router = express.Router();
 
+router.get('/', getAccounts);
 router.post('/', postAccount);
 
 router.get('/:username', getAccount);

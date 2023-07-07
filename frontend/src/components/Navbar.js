@@ -5,7 +5,7 @@ const Navbar = ({username}) => {
         <a className="website-name" href="//">Image Board</a>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/users">Users</a></li>
+          <li><a href="/search">Search</a></li>
           <li><a href="/add">Add</a></li>
           <li><a href="/account">Account</a></li>
           <li><a href="/settings">Settings</a></li>

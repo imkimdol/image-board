@@ -2,6 +2,16 @@ const bcrypt = require('bcrypt');
 const Account = require('../models/accountModel');
 const {checkAuthorized} = require('../helpers/miscHelpers');
 
+const getAccounts = async (req, res) => {
+    const account = await Account.find({}, { _id: true });
+  
+    if (!account) {
+        return res.status(404).json({error: 'Account not found'});
+    }
+    
+    res.status(200).json(account);
+};
+
 const getAccount = async (req, res) => {
     const { username } = req.params;
 
@@ -51,6 +61,7 @@ const deleteAccount = async (req, res) => {
 };
 
 module.exports = {
+    getAccounts,
     getAccount,
     postAccount,
     deleteAccount,
