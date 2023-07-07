@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AsyncSelect from 'react-select/async'
 
 import { getServerLoc } from "../helpers/miscHelpers";
@@ -8,6 +8,7 @@ import { getServerLoc } from "../helpers/miscHelpers";
 const EditPost = () => {
   const username = localStorage.getItem("username");
   const postId = useParams().id;
+  const navigate = useNavigate();
 
   const [ post, setPost ] = useState(null);
   const [ description, setDescription ] = useState(null);
@@ -62,14 +63,16 @@ const EditPost = () => {
     setSelectedTags(value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const baseLink = getServerLoc() + "/posts/" + postId;
 
-      axios.put(baseLink+"/description/", {description});
-      axios.put(baseLink+"/tags/", {tags: selectedTags.map(e => e.value)});
+      await axios.put(baseLink+"/description/", {description});
+      await axios.put(baseLink+"/tags/", {tags: selectedTags.map(e => e.value)});
+
+      navigate("/posts/"+post._id);
     } catch (e) {
       setError(e);
       console.error(e);
